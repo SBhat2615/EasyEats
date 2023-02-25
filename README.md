@@ -1,2 +1,2 @@
 # EasyEats
-Website designed to order food in few clicks
+Website to order food in few clicks
