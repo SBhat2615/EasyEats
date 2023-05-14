@@ -171,21 +171,21 @@ def single_dish(request, id):
         cust = get_object_or_404(Profile, user__id = request.user.id)
         order = Order(customer=cust, item=dish)
         order.save()
-        inv = f'INV0000-{order.id}'
+        # inv = f'INV0000-{order.id}'
 
-        paypal_dict = {
-            'business':settings.PAYPAL_RECEIVER_EMAIL,
-            'amount':dish.discounted_price,
-            'item_name':dish.name,
-            'user_id':request.user.id,
-            'invoice':inv,
-            'notify_url':'http://{}{}'.format(settings.HOST, reverse('paypal-ipn')),
-            'return_url':'http://{}{}'.format(settings.HOST,reverse('payment_done')),
-            'cancel_url':'http://{}{}'.format(settings.HOST,reverse('payment_cancel')),
-        }
+        # paypal_dict = {
+        #     'business':settings.PAYPAL_RECEIVER_EMAIL,
+        #     'amount':dish.discounted_price,
+        #     'item_name':dish.name,
+        #     'user_id':request.user.id,
+        #     'invoice':inv,
+        #     'notify_url':'http://{}{}'.format(settings.HOST, reverse('paypal-ipn')),
+        #     'return_url':'http://{}{}'.format(settings.HOST,reverse('payment_done')),
+        #     'cancel_url':'http://{}{}'.format(settings.HOST,reverse('payment_cancel')),
+        # }
 
-        order.invoice_id = inv 
-        order.save()
+        # order.invoice_id = inv 
+        # order.save()
         request.session['order_id'] = order.id
 
         form = PayPalPaymentsForm(initial=paypal_dict)
@@ -209,3 +209,6 @@ def payment_cancel(request):
     # Order.objects.get(id=order_id).delete()
 
     return render(request, 'payment_failed.html') 
+
+def bill(request):
+    return render(request, 'bill.html', {})
