@@ -54,6 +54,16 @@ def all_dishes(request):
         context['dish_category'] = Category.objects.get(id=id).name 
 
     context['dishes'] = dishes
+    # for i in context.items():
+    #     print(i[1].image.url)
+    #     for j in i[1]:
+    #         print(j)
+
+    dishes = Dish.objects.all() # Get all dishes
+
+    for dish in dishes:
+        print(dish.image.url) # Access the image url for each dish
+
     return render(request,'all_dishes.html', context)
 
 def register(request):
