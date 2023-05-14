@@ -3,7 +3,7 @@ from myapp.models import Contact, Dish, Team, Category, Profile, Order
 from django.http import HttpResponse,JsonResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
-# from paypal.standard.forms import PayPalPaymentsForm
+from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
 
 def index(request):
@@ -188,8 +188,8 @@ def single_dish(request, id):
         order.save()
         request.session['order_id'] = order.id
 
-        # form = PayPalPaymentsForm(initial=paypal_dict)
-        # context.update({'dish':dish, 'form':form})
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        context.update({'dish':dish, 'form':form})
 
     return render(request,'dish.html', context)
 
