@@ -188,8 +188,8 @@ def single_dish(request, id):
         # order.save()
         request.session['order_id'] = order.id
 
-        form = PayPalPaymentsForm(initial=paypal_dict)
-        context.update({'dish':dish, 'form':form})
+        # form = PayPalPaymentsForm(initial=paypal_dict)
+        context.update({'dish':dish})
 
     return render(request,'dish.html', context)
 
