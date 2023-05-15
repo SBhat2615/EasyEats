@@ -12,7 +12,6 @@ def index(request):
     context ={}
     cats = Category.objects.all().order_by('name')
     context['categories'] = cats
-    # print()
     dishes = []
     for cat in cats:
         dishes.append({
