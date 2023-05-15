@@ -1,3 +1,5 @@
+from math import ceil
+
 from django.shortcuts import render, get_object_or_404, reverse
 from myapp.models import Contact, Dish, Team, Category, Profile, Order
 from django.http import HttpResponse,JsonResponse, HttpResponseRedirect
@@ -74,10 +76,10 @@ def register(request):
         email = request.POST.get('email')
         password = request.POST.get('pass')
         contact = request.POST.get('number')
-        check = User.objects.filter(username=email)
+        check = User.objects.filter(username=name)
         if len(check)==0:
             #Save data to both tables
-            usr = User.objects.create_user(email, email, password)
+            usr = User.objects.create_user(name, email, password)
             usr.first_name = name
             usr.save()
 
@@ -100,10 +102,10 @@ def check_user_exists(request):
 def signin(request):
     context={}
     if request.method=="POST":
-        email = request.POST.get('email')
+        name = request.POST.get('name')
         passw = request.POST.get('password')
 
-        check_user = authenticate(username=email, password=passw)
+        check_user = authenticate(username=name, password=passw)
         if check_user:
             login(request, check_user)
             if check_user.is_superuser or check_user.is_staff:
@@ -170,25 +172,11 @@ def single_dish(request, id):
     if request.user.is_authenticated:
         cust = get_object_or_404(Profile, user__id = request.user.id)
         order = Order(customer=cust, item=dish)
-        order.save()
-        # inv = f'INV0000-{order.id}'
-
-        # paypal_dict = {
-        #     'business':settings.PAYPAL_RECEIVER_EMAIL,
-        #     'amount':dish.discounted_price,
-        #     'item_name':dish.name,
-        #     'user_id':request.user.id,
-        #     'invoice':inv,
-        #     'notify_url':'http://{}{}'.format(settings.HOST, reverse('paypal-ipn')),
-        #     'return_url':'http://{}{}'.format(settings.HOST,reverse('payment_done')),
-        #     'cancel_url':'http://{}{}'.format(settings.HOST,reverse('payment_cancel')),
-        # }
-
-        # order.invoice_id = inv 
-        # order.save()
+        inv = f'INV0000-{order.id}'
+        order.invoice_id = inv 
+        order.save()  
         request.session['order_id'] = order.id
 
-        # form = PayPalPaymentsForm(initial=paypal_dict)
         context.update({'dish':dish})
 
     return render(request,'dish.html', context)
@@ -210,5 +198,22 @@ def payment_cancel(request):
 
     return render(request, 'payment_failed.html') 
 
-def bill(request):
-    return render(request, 'bill.html', {})
+def bill(request, name):
+    print(name)
+    orders = Order.objects.order_by('ordered_on')
+
+    order = None
+    for i in orders:
+        if(str(i)==name):
+            print(i, i.ordered_on)
+            order = i
+    
+    print(order, type(order))
+    
+    tax = order.item.price * 0.15
+    print(tax)
+
+    total = ceil(order.item.price * 1.15)
+    print(total)
+
+    return render(request, 'bill.html', {'order': order, 'tax': tax, 'total': total})
