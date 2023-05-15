@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Header Start -->
+<div class="page-header mb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Cuisines (3)</h2>
+            </div>
+            <div class="col-12">
+                <a href="/">Home</a>
+                <a href="/dishes">Cuisines</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+ <!-- Menu Start -->
+ <div class="menu">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Delicious Food Menu</h2>
+        </div>
+        <div class="menu-tab">
+            
+            <ul class="nav nav-pills justify-content-center">
+                {% for category in menu %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="pill" href="#c-{{category.cat_id}}">{{category.cat_name}}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="tab-content">
+                {% for category in menu %}
+                <div id="c-{{category.cat_id}}" class="container tab-pane">
+                    <div class="row">
+                        {% if category.items|length == 0 %}
+                         <div class="col-md-12 text-center"><h3>No Items under {{category.cat_name}} Yet..</h3></div>
+                        {% else %}
+                        <div class="col-lg-7 col-md-12">
+                        {% for item in category.items %}
+                            <div class="menu-item">
+                                <div class="menu-img">
+                                    <img src="/media/{{item.image}}" alt="Image">
+                                </div>
+                                <div class="menu-text">
+                                    <h3><span><a href="{% url 'dish' id=item.id %}">{{item.name}}</a></span> 
+                                        {% if item.price != item.discounted_price %}
+                                         <strong><del>&#8377;{{item.price}}</del></strong>
+                                        {% endif %}
+                                         <strong>&#8377;{{item.discounted_price}}</strong>
+                                    </h3>
+                                    <p>{{item.ingredients}}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                        <div class="col-lg-5 d-none d-lg-block">
+                            <img src="/media/{{category.cat_img}}" style="width:100%;" alt="Image">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Menu End -->
+
+
+
+
+{% endblock %}

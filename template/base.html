@@ -42,7 +42,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
                         <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
-                        
+                        <a href="{% url 'cuisine' %}" class="nav-item nav-link">Cuisines</a>                   
                         <a href="{% url 'all_dishes' %}" class="nav-item nav-link">Menu</a>
                         <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                         {% if user.is_authenticated %}

@@ -79,7 +79,7 @@
                                 <p>
                                     Our commitment to quality doesn't stop with our food. From the moment you walk through our doors, our friendly staff will make you feel right at home. We believe that dining out should be an experience, and we strive to create an atmosphere that is warm, welcoming, and inviting. Come visit us today and taste the difference for yourself!
                                 </p>
-                                <a class="btn custom-btn" href="">Order Now</a>
+                                
                             </div>
                         </div>
                     </div>
@@ -137,7 +137,7 @@
                             <p>
                                 At EasyEats, we are committed to delivering exceptional service and quality food to our customers. Our dedication to using fresh ingredients, traditional cooking techniques, and innovative recipes sets us apart in the industry. Whether you're looking for a quick bite or a special occasion meal, our diverse menu and fast delivery make us the perfect choice. Come experience the EasyEats difference and taste the flavors of the world!
                             </p>
-                            <a class="btn custom-btn" href="">Order Now</a>
+                            
                         </div>
                     </div>
                     <div class="col-lg-7">
@@ -212,61 +212,6 @@
         </div>
         <!-- Food End -->
         
-        
-        <!-- Menu Start -->
-        <div class="menu">
-            <div class="container">
-                <div class="section-header text-center">
-                    <p>Food Menu</p>
-                    <h2>Delicious Food Menu</h2>
-                </div>
-                <div class="menu-tab">
-                    
-                    <ul class="nav nav-pills justify-content-center">
-                        {% for category in menu %}
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="pill" href="#c-{{category.cat_id}}">{{category.cat_name}}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="tab-content">
-                        {% for category in menu %}
-                        <div id="c-{{category.cat_id}}" class="container tab-pane">
-                            <div class="row">
-                                {% if category.items|length == 0 %}
-                                 <div class="col-md-12 text-center"><h3>No Items under {{category.cat_name}} Yet..</h3></div>
-                                {% else %}
-                                <div class="col-lg-7 col-md-12">
-                                {% for item in category.items %}
-                                    <div class="menu-item">
-                                        <div class="menu-img">
-                                            <img src="/media/{{item.image}}" alt="Image">
-                                        </div>
-                                        <div class="menu-text">
-                                            <h3><span><a href="{% url 'dish' id=item.id %}">{{item.name}}</a></span> 
-                                                {% if item.price != item.discounted_price %}
-                                                 <strong><del>&dollar;{{item.price}}</del></strong>
-                                                {% endif %}
-                                                 <strong>&dollar;{{item.discounted_price}}</strong>
-                                            </h3>
-                                            <p>{{item.ingredients}}</p>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                                </div>
-                                <div class="col-lg-5 d-none d-lg-block">
-                                    <img src="/media/{{category.cat_img}}" style="width:100%;" alt="Image">
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Menu End -->
-        
-
+      
         
 {% endblock %}

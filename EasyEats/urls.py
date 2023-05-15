@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name="index"),
     path('contact/',views.contact_us,name="contact"),
+    path('cuisines/', views.cuisines, name='cuisine'),
     path('dishes/',views.all_dishes,name="all_dishes"),
     path('register/',views.register,name="register"),
     path('check_user_exists/',views.check_user_exists,name="check_user_exist"),

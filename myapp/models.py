@@ -27,18 +27,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class Team(models.Model):
-    name = models.CharField(max_length=100)
-    designation = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="team")
-    added_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-    # facebook_url = models.CharField(blank=True,max_length=200)
-    # twitter_url = models.CharField(blank=True,max_length=200)
-
-    def __str__(self):
-        return self.name 
-
 class Dish(models.Model):
     name = models.CharField(max_length=200, unique=True)
     image = models.ImageField(upload_to='dishes/%Y/%m/%d')
