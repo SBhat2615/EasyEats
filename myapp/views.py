@@ -126,12 +126,6 @@ def dashboard(request):
         profile.user.save()
         profile.contact_number = contact 
         profile.address = add 
-
-        if "profile_pic" in request.FILES:
-            pic = request.FILES['profile_pic']
-            profile.profile_pic = pic
-        profile.save()
-        context['status'] = 'Profile updated successfully!'
     
     #Change Password 
     if "change_pass" in request.POST:
@@ -172,22 +166,7 @@ def single_dish(request, id):
 
     return render(request,'dish.html', context)
 
-def payment_done(request):
-    pid = request.GET.get('PayerID')
-    order_id = request.session.get('order_id')
-    order_obj = Order.objects.get(id=order_id)
-    order_obj.status=True 
-    order_obj.payer_id = pid
-    order_obj.save()
 
-    return render(request, 'payment_successfull.html') 
-
-def payment_cancel(request):
-    ## remove comment to delete cancelled order
-    # order_id = request.session.get('order_id')
-    # Order.objects.get(id=order_id).delete()
-
-    return render(request, 'payment_failed.html') 
 
 def bill(request, name):
     print(name)
