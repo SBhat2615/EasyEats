@@ -9,19 +9,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
 
 def index(request):
-    context ={}
-    cats = Category.objects.all().order_by('name')
-    context['categories'] = cats
-    dishes = []
-    for cat in cats:
-        dishes.append({
-            'cat_id':cat.id,
-            'cat_name':cat.name,
-            'cat_img':cat.image,
-            'items':list(cat.dish_set.all().values())
-        })
-    context['menu'] = dishes
-    return render(request,'index.html', context)
+    return render(request,'index.html', {})
 
 def all_dishes(request):
     context={}
@@ -32,15 +20,10 @@ def all_dishes(request):
         context['dish_category'] = Category.objects.get(id=id).name 
 
     context['dishes'] = dishes
-    # for i in context.items():
-    #     print(i[1].image.url)
-    #     for j in i[1]:
-    #         print(j)
-
-    dishes = Dish.objects.all() # Get all dishes
+    dishes = Dish.objects.all()
 
     for dish in dishes:
-        print(dish.image.url) # Access the image url for each dish
+        print(dish.image.url)
 
     return render(request,'all_dishes.html', context)
 
@@ -81,14 +64,12 @@ def about(request):
 def register(request):
     context={}
     if request.method=="POST":
-        #fetch data from html form
         name = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('pass')
         contact = request.POST.get('number')
         check = User.objects.filter(username=name)
         if len(check)==0:
-            #Save data to both tables
             usr = User.objects.create_user(name, email, password)
             usr.first_name = name
             usr.save()
